@@ -1,0 +1,61 @@
+<?php if (!defined('BASEPATH')) {exit('No direct script access allowed');
+}
+
+class Hotels extends CI_Model {
+	function getRows($params = array()) {
+
+		// $order_by=$params['start'];
+
+		$this->db->select('*');
+		$this->db->from('v_list_hotels');
+
+		//$this->db->join('hotel_rooms AS hr','h.hotel_id=hotel_rooms.hotel_id','left');
+		if (array_key_exists("starorder", $params)) {
+			$this->db->where('star_rating', $params['starorder']);
+		} else {
+			//$this->db->where('star_rating',4);
+		}
+
+		// $this->db->order_by('star_rating','desc');
+
+		if (array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$this->db->limit($params['limit'], $params['start']);
+		} elseif (!array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$this->db->limit($params['limit']);
+		}
+
+		//$query = $this->db->get();
+		$query = $this->db->get();
+
+		return ($query->num_rows() > 0)?$query->result_array():FALSE;
+	}
+
+	function FindRows($params = array()) {
+
+		// $order_by=$params['start'];
+
+		$this->db->select('*');
+		$this->db->from('v_list_hotels');
+
+		//$this->db->join('hotel_rooms AS hr','h.hotel_id=hotel_rooms.hotel_id','left');
+		if (array_key_exists("starorder", $params)) {
+			$this->db->where('star_rating', $params['starorder']);
+		} else {
+			//$this->db->where('star_rating',4);
+		}
+		$this->db->where('destinations', $params['find']);
+
+		// $this->db->order_by('star_rating','desc');
+
+		if (array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$this->db->limit($params['limit'], $params['start']);
+		} elseif (!array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$this->db->limit($params['limit']);
+		}
+
+		//$query = $this->db->get();
+		$query = $this->db->get();
+
+		return ($query->num_rows() > 0)?$query->result_array():FALSE;
+	}
+}

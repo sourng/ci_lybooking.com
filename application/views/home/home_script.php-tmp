@@ -1,0 +1,95 @@
+ <!-- Library JS -->
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/parallax.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/jquery.mb.YTPlayer.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/library/SmoothScroll.js"></script>
+    <!-- End Library JS -->
+    <!-- Main Js -->
+    <script type="text/javascript" src="<?php echo base_url();?>public/js/script.js"></script>
+    <!-- End Main Js -->
+
+
+
+
+
+    <script>
+        $(document).ready(function(){
+            // Load category when page load
+                hotels_top_sale();
+            // window.onload = function(){
+            //  load_category();
+            // };
+             hotel_destinations();
+             hotel_dest_grid();
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+        function hotels_top_sale()
+            {
+                $.ajax({
+                    url : "<?php echo base_url()?>home/hotel_top_sale",
+                    //url:"<?php //echo base_url() ?>getdata",
+                    type: "GET",
+                    data: $('#frm-create').serialize(),
+                    dataType: 'json',
+                    success:function(data){
+                        $('#category-row').html(data);
+                    },
+                    error: function(){
+                        alert('Error...');
+                    }
+                });
+
+
+            }
+
+             function hotel_destinations()
+            {
+                $.ajax({
+                    url : "<?php echo base_url()?>home/hotel_destinations",
+                    //url:"<?php //echo base_url() ?>getdata",
+                    type: "GET",
+                    data: $('#frm-create').serialize(),
+                    dataType: 'json',
+                    success:function(data){
+                        $('#destination-row').html(data);
+                       // alert('Get Data...');
+                    },
+                    error: function(){
+                        alert('Error...');
+                    }
+                });
+            }
+
+
+   function hotel_dest_grid()
+            {
+                $.ajax({
+                    url : "<?php echo base_url()?>home/hotel_dest_grid",
+                    //url:"<?php //echo base_url() ?>getdata",
+                    type: "GET",
+                    data: $('#frm-create').serialize(),
+                    dataType: 'json',
+                    success:function(data){
+                        $('#destination-grid').html(data);
+                       // alert('Get Data...');
+                    },
+                    error: function(){
+                        alert('Error...');
+                    }
+                });
+            }
+
+
+            $('body').tooltip({
+                selector:'[data-toggle="tooltip"]'
+            });
+        });
+
+    </script>
