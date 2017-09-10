@@ -4,7 +4,7 @@ class Hotel extends CI_Controller {
     
     function __construct() {
         parent::__construct();
-        $this->load->model('Hotels','hotels',TRUE);
+        $this->load->model('M_Hotels','mh',TRUE);
         $this->load->model('M_Sourng','m_sourng',True);
         $this->load->library('Ajax_pagination');
         $this->load->helper('text');
@@ -29,7 +29,7 @@ class Hotel extends CI_Controller {
       
         
         //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -40,10 +40,9 @@ class Hotel extends CI_Controller {
         $this->ajax_pagination->initialize($config);
         
         //get the posts data
-        $data['hotel'] = $this->hotels->getRows(array('limit'=>$this->perPage));
+        $data['hotel'] = $this->mh->getRows(array('limit'=>$this->perPage));
         
         $data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
-
         $data['dest']=$this->m_sourng->get_by_sql("SELECT * FROM destinations",false);
 
         $data['body']='hotels/v_list_hotels';
@@ -65,7 +64,7 @@ class Hotel extends CI_Controller {
       
         
         //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -76,7 +75,7 @@ class Hotel extends CI_Controller {
         $this->ajax_pagination->initialize($config);
         
         //get the posts data
-        $data['hotel'] = $this->hotels->getRows(array('limit'=>$this->perPage));
+        $data['hotel'] = $this->mh->getRows(array('limit'=>$this->perPage));
         
         $data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
 
@@ -105,7 +104,7 @@ class Hotel extends CI_Controller {
         }
         
         //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -116,7 +115,7 @@ class Hotel extends CI_Controller {
         $this->ajax_pagination->initialize($config);
         
         //get the posts data
-        $data['hotel'] = $this->hotels->getRows(array('start'=>$offset,'limit'=>$this->perPage));        
+        $data['hotel'] = $this->mh->getRows(array('start'=>$offset,'limit'=>$this->perPage));        
         $data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
         //load the view
        // $this->load->view('hotels/ajax-list-hotels', $data, false);
@@ -143,7 +142,7 @@ function ajaxPaginationFind()
         }
         
         //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -154,7 +153,7 @@ function ajaxPaginationFind()
         $this->ajax_pagination->initialize($config);
         
         //get the posts data
-        $data['hotel'] = $this->hotels->FindRows(array('start'=>$offset,'limit'=>$this->perPage,'find'=>$find));
+        $data['hotel'] = $this->mh->FindRows(array('start'=>$offset,'limit'=>$this->perPage,'find'=>$find));
         
         $data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
 
@@ -179,7 +178,7 @@ public function find()
         $data['starOrder']=$this->input->post['txtStar'];
         $starOrder=4;
         //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -191,7 +190,7 @@ public function find()
         
         //get the posts data
         //$data['hotel'] = $this->hotels->FindRows(array('limit'=>$this->perPage,'starorder'=>$this->starOrder,'find'=>$find));
-        $data['hotel'] = $this->hotels->FindRows(array('find'=>$find));
+        $data['hotel'] = $this->mh->FindRows(array('find'=>$find));
         
         $data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
 
@@ -248,7 +247,7 @@ public function find()
 public function get_hotels()
 	{    
 		 //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -320,7 +319,7 @@ public function get_hotels()
     {
         
          //total rows count
-        $totalRec = count($this->hotels->getRows());
+        $totalRec = count($this->mh->getRows());
         
         //pagination configuration
         $config['target']      = '#postList';
@@ -331,7 +330,7 @@ public function get_hotels()
         $this->ajax_pagination->initialize($config);
         
         //get the posts data
-        $data['hotel'] = $this->hotels->getRows(array('limit'=>$this->perPage));  
+        $data['hotel'] = $this->mh->getRows(array('limit'=>$this->perPage));  
         
         
         

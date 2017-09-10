@@ -36,16 +36,7 @@
                         </li>
                         <li class="cate-item col-xs-2">
                             <a data-toggle="tab" href="#form-car" title=""><span>Private Taxis</span><img src="<?php echo base_url(); ?>public/images/icon-taxi1.png" alt=""></a>
-                        </li>
-                       <!--  <li class="cate-item col-xs-2">
-                            <a data-toggle="tab" href="#form-package" title=""><span>package deals</span><img src="<?php echo base_url(); ?>public/hotels/images/icon-tour.png" alt=""></a>
-                        </li>
-                        <li class="cate-item col-xs-2">
-                            <a data-toggle="tab" href="#form-cruise" title=""><span>cruise</span><img src="<?php echo base_url(); ?>public/hotels/images/icon-cruise.png" alt=""></a>
-                        </li>
-                        <li class="cate-item col-xs-2">
-                            <a data-toggle="tab" href="#form-tour" title=""><span>TOUR</span><img src="<?php echo base_url(); ?>public/hotels/images/icon-vacation.png" alt=""></a>
-                        </li> -->
+                        </li>                      
                     </ul>
                     <!-- End Tabs Cat -->
 

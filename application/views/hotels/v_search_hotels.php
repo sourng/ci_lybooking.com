@@ -33,7 +33,7 @@
                             <div class="form-search clearfix">
                                 <div class="form-field field-destination">
                                     <label for="destination"><span>Destination:</span> Country, City, Airport, Area, Landmark</label>
-                                    <input type="text" name="txtdestination" id="destination" class="field-input">
+                                    <input type="text" id="keywords" name="txtdestination" id="destination" class="field-input" onkeyup="searchFilter()">
                                 </div>
                                 <div class="form-field field-date">
                                     <input type="text" class="field-input calendar-input" placeholder="Check in">
@@ -55,14 +55,11 @@
                                 <div class="form-submit">
                                     <button class="awe-btn awe-btn-lager awe-search" id="btnSearch" type="button">Search</button>
                                     <!--<button type="button" id="btnSearch" class="awe-btn awe-btn-lager awe-search textbtnload">Search</button>-->
-                                </div>
+                                </div>                                
                                  
-                                  <button class="btn btn-primary textbtnload" type="button">TestLoad</button>
                             </div>
                         </div>
-
                         </form>
-                       
 
                         <!-- End Search Hotel -->
                     </div>

@@ -8,17 +8,20 @@ class Hotels extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->database();
-		//$this->load->model('M_ps','m_ps',True);
-		$this->load->model('M_Sourng','m_sourng',True);
-		$this->load->helper('text');
-		 $this->load->library('pagination');
+		$this->load->model('M_Hotels','mh',TRUE);
+
+        $this->load->model('M_Sourng','m_sourng',True);
+        $this->load->library('Ajax_pagination');
+        $this->load->helper('text');
+        $this->load->database();
+        $this->perPage = 2;
 	}
 	
 	public function index($offset = 0)
 	{
 		
 		// $data['getHotels']=$this->m_sourng->index($this->limit,$sql);
-
+$data = array();
 		$this->load->helper('text');
 		$data['breadcrumb_1']="index";
 		$data['breadcrumb_2']="Hotels";
@@ -27,96 +30,78 @@ class Hotels extends CI_Controller {
 		$data['title']="Hotel List Search Result";	
 		
 
-		// $data['getHotels']=$this->m_sourng->get_by_sql($sql,false);
 
-		// $data['getHotels']=$this->m_sourng->index($this->limit,$offset);
-		// $getHotels=$this->m_sourng->index($this->limit,$sql);
+        
+        //total rows count
+        $totalRec = count($this->mh->getRows());
+        
+        //pagination configuration
+        $config['target']      = '#postList';
+        $config['base_url']    = base_url().'hotels/ajaxPaginationData';
+        $config['total_rows']  = $totalRec;
+        $config['per_page']    = $this->perPage;
+        $config['link_func']   = 'searchFilter';
+        $this->ajax_pagination->initialize($config);
+        
+        //get the posts data
+        $data['hotel'] = $this->mh->getRows(array('limit'=>$this->perPage));
 
-/*
-		 //how many blogs will be shown in a page
-        $limit = 3;
-        $result = $this->m_sourng->get_hotels_page($limit, $offset);
-        // $result = $this->m_sourng->getHotels($limit, $this->uri->segment(3));
-        $data['getHotels'] = $result['rows'];
-        $data['num_results'] = $result['num_rows'];
-       
-        $config = array();
-        $config['base_url'] = site_url("hotels/index");
-        $config['total_rows'] = 6;//$data['num_results'];
-        $config['per_page'] = $limit;
-        //which uri segment indicates pagination number
-        $config['uri_segment'] = 3;
-        $config['use_page_numbers'] = TRUE;
-        //max links on a page will be shown
-        $config['num_links'] = 6;//$data['num_results'];
-        //various pagination configuration
-        $config['full_tag_open'] = '<div class="page-navigation-cn"><ul class="page-navigation">';
-        $config['full_tag_close'] = '</ul></div><!--pagination-->';
-     	$config['first_link'] = '&laquo; First';
-		$config['first_tag_open'] = '<li class="prev page">';
-        $config['first_tag_close'] = '</li>';
-		$config['last_link'] = 'Last &raquo;';
-		$config['last_tag_open'] = '<li class="next page">';
-		$config['last_tag_close'] = '</li>';
-		$config['next_link'] = 'Next &rarr;';
-		$config['next_tag_open'] = '<li class="next page">';
-		$config['next_tag_close'] = '</li>';
-		$config['prev_link'] = '&larr; Previous';
-		$config['prev_tag_open'] = '<li class="prev page">';
-		$config['prev_tag_close'] = '</li>';
-		$config['cur_tag_open'] = '<li class="current"><a href="">';
-		$config['cur_tag_close'] = '</a></li>';
-		$config['num_tag_open'] = '<li class="page">';
-		$config['num_tag_close'] = '</li>';
-		$config['display_pages'] = FALSE;
-		// 
-		$config['anchor_class'] = 'follow_link';
+       $data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
+        $data['dest']=$this->m_sourng->get_by_sql("SELECT * FROM destinations",false);
+        
+		$data['body']='hotels/v_list_hotels';
 
-        //$this->load->library('pagination');
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination->create_links();
-
-
-*/
-
-$limit=4;
-        // Config setup
- $num_rows=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
- // $config['base_url'] = base_url().'index.php/welcome/index';
- $config['base_url']=base_url("hotels/index");
- $config['total_rows'] = $num_rows;
- $config['per_page'] = $limit;
- $config['num_links'] = 5;//$num_rows;
- $config['use_page_numbers'] = TRUE;
- $config['full_tag_open'] = '<ul class="pagination">';
- $config['full_tag_close'] = '</ul>';
- $config['prev_link'] = '&laquo;';
- $config['prev_tag_open'] = '<li>';
- $config['prev_tag_close'] = '</li>';
- $config['next_tag_open'] = '<li>';
- $config['next_tag_close'] = '</li>';
- $config['cur_tag_open'] = '<li class="active"><a href="#">';
- $config['cur_tag_close'] = '</a></li>';
- $config['num_tag_open'] = '<li>';
- $config['num_tag_close'] = '</li>';
-
-$config['next_link'] = '&raquo;';
-
- $this->pagination->initialize($config);
- $data['pagination'] = $this->pagination->create_links();
-$data['getHotels']=$this->db->get('hotels', $limit,$offset);
-
-
-		$data['body']= 'v_hotel_list';
-		$data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
-		
-		
 		//$this->load->view('admin/desktop/dashboard',$data);
 		$this->load->view('v_hotel_desktop',$data);	
 
-		//$this->load->view('v_hotel_desktop',$data,compact('getHotels','page_link'));	
 
-	}
+
+}
+
+ function ajaxPaginationData(){
+        $conditions = array();
+        
+        //calc offset number
+        $page = $this->input->post('page');
+        if(!$page){
+            $offset = 0;
+        }else{
+            $offset = $page;
+        }
+        
+        //set conditions for search
+        $keywords = $this->input->post('keywords');
+        $sortBy = $this->input->post('sortBy');
+        if(!empty($keywords)){
+            $conditions['search']['keywords'] = $keywords;
+        }
+        if(!empty($sortBy)){
+            $conditions['search']['sortBy'] = $sortBy;
+        }
+        
+        //total rows count
+        $totalRec = count($this->mh->getRows($conditions));
+        
+        //pagination configuration
+        $config['target']      = '#postList';
+        $config['base_url']    = base_url().'hotels/ajaxPaginationData';
+        $config['total_rows']  = $totalRec;
+        $config['per_page']    = $this->perPage;
+        $config['link_func']   = 'searchFilter';
+        $this->ajax_pagination->initialize($config);
+        
+        //set start and limit
+        $conditions['start'] = $offset;
+        $conditions['limit'] = $this->perPage;
+        
+        //get posts data
+        $data['posts'] = $this->mh->getRows($conditions);
+        
+        //load the view
+       $this->load->view('hotels/ajax-pagination-data', $data, false);
+        // $this->load->view('hotels/ajax-hotels-list', $data, false);
+    }
+
 	public function detail($id)
 	{
 		$data['title']="Hotel List Search Result";	

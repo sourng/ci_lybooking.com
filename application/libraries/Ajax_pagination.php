@@ -1,15 +1,5 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * Pagination Class
- *
- * @package   CodeIgniter
- * @link      http://codeigniter.com/user_guide/libraries/pagination.html
- * 
- * Modified by CodexWorld.com
- * @Ajax pagination functionality has added with this library. 
- * @It will helps to integrate Ajax pagination with loading image in CodeIgniter application.
- * @TutorialLink http://www.codexworld.com/ajax-pagination-in-codeigniter-framework/
- */
+
 class Ajax_pagination{
 
     var $base_url        = ''; // The page we are linking to

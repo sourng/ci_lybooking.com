@@ -1,26 +1,27 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Hotels extends CI_Model{
-    function getRows($params = array()){
-       // $order_by=$params['start'];
+class M_Hotels extends CI_Model{
+        function getRows($params = array()){
         $this->db->select('*');
         $this->db->from('v_list_hotels');
-        //$this->db->join('hotel_rooms AS hr','h.hotel_id=hotel_rooms.hotel_id','left');
-        if(array_key_exists("starorder",$params)){
-            $this->db->where('star_rating',$params['starorder']);
+        //filter data by searched keywords
+        if(!empty($params['search']['keywords'])){
+            $this->db->like('h_name',$params['search']['keywords']);
+        }
+        //sort data by ascending or desceding order
+        if(!empty($params['search']['sortBy'])){
+            $this->db->order_by('h_name',$params['search']['sortBy']);
         }else{
-            //$this->db->where('star_rating',4);
-        }        
-
-       // $this->db->order_by('star_rating','desc');        
+            $this->db->order_by('star_rating','desc');
+        }
+        //set start and limit
         if(array_key_exists("start",$params) && array_key_exists("limit",$params)){
             $this->db->limit($params['limit'],$params['start']);
         }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){
             $this->db->limit($params['limit']);
         }
-        
-        //$query = $this->db->get();
+        //get records
         $query = $this->db->get();
-        
+        //return fetched data
         return ($query->num_rows() > 0)?$query->result_array():FALSE;
     }
 

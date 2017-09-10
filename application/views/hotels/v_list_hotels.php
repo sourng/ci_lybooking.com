@@ -36,11 +36,10 @@
                                         <label>Sort by: </label>
                                         <div class="sort-select select float-left">
                                             <span data-placeholder="Select">Star rating</span>
-                                            <select name="star_rating" id="star_rating" onchange="getStar()">
-                                                <option value="0">Star rating</option>
-                                                <option selected value="1">Star rating 1</option>
-                                                <option value="2">Star rating 2</option>
-                                                <option value="3">Star rating 3</option>
+                                            <select id="sortBy" onchange="searchFilter()">
+                                                <option value="">Sort By</option>
+                                                <option value="asc">Ascending</option>
+                                                <option value="desc">Descending</option>
                                             </select>
                                         </div>
 
@@ -62,6 +61,7 @@
                                                 <option value="1">Pricing</option>
                                             </select>
                                         </div>
+            
 
                                     </div>       
 
@@ -70,7 +70,7 @@
                                     <div class="view-by float-right">
                                         <ul>
                                             <li><a href="hotel-list.html" title=""><img src="<?php echo base_url(); ?>public/images/icon-grid.png" alt=""></a></li>
-                                            <li><a href="hotel-list-2.html" title="" class="current"><img src="<?php echo base_url(); ?>public//images/icon-list.png" alt=""></a></li>
+                                            <li><a href="hotel-list-2.html" title="" class="current"><img src="<?php echo base_url(); ?>public/images/icon-list.png" alt=""></a></li>
                                             <li><a href="hotel-maps.html" title=""><img src="<?php echo base_url(); ?>public/images/icon-map.png" alt=""></a></li>
                                         </ul>
                                     </div>
@@ -81,7 +81,7 @@
 
 <!-- Hotel Grid Content-->
 <div  class="hotel-list-cn clearfix" id="postList">
-<div class="row">
+
     
         <div class="post-list" id="postList">
             <?php if(!empty($hotel)): foreach($hotel as $row): ?>
@@ -147,14 +147,8 @@
 
                                             </div>
                                         </div>
-
-
-      </div>
-<!-- End Hotel Item -->
-
-
-
-
+                    </div>
+            <!-- End Hotel Item -->
 
             <?php endforeach; else: ?>
             <p>Post(s) not available.</p>
@@ -166,7 +160,7 @@
                 <img src="<?php echo base_url().'assets/images/loading.gif'; ?>"/>
             </div>
         </div>
-    </div>     
+      
 </div><!-- End Hotel Grid Content-->
                             <!-- Page Navigation -->
                             <!--    <div class="page-navigation-cn">
@@ -182,11 +176,7 @@
                                     </ul>
 
                                 </div> -->
-
-                                <?php 
-                                    //echo $page_link;
-                                  //  echo $pagination;
-                                ?>
+                                
                                 <!-- Page Navigation -->
                                
 

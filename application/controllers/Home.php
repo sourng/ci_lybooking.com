@@ -31,21 +31,13 @@ class Home extends CI_Controller {
 // confidence_subscribe
 		$data['confidence_subscribe']='home/v_confidence_subscribe';
 
-		//$data['body']='v_hotsales';
-		//$this->load->view('admin/desktop/dashboard',$data);
-		// $this->load->view('v_hotel_desktop',$data);
+		
+	
 
 		$this->load->view('templates/template_home',$data);			
 	}
 
-	// public function hotels()
-	// {
-	// 	$data['title']="Hotel List Search Result";			
-	// 	$data['body']= 'v_hotel_list';
-	// 	$data['hotel_count']=$this->m_sourng->count_by_sql("SELECT * FROM hotels WHERE hotel_blocked='N'",false);
-	// 	//$this->load->view('admin/desktop/dashboard',$data);
-	// 	$this->load->view('v_hotel_desktop',$data);
-	// }
+	
 
 	// Get Top Sale Hotels
 	public function hotel_top_sale()
@@ -151,10 +143,7 @@ class Home extends CI_Controller {
 			}  //End foreach
 			echo json_encode($table);
 		}
-	}
-        
-        
-        
+	}       
         
         
 
